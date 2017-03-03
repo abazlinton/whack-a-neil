@@ -1,12 +1,5 @@
-.container {
-  position: fixed;
-  z-index: 1;
-  background: white
-}
 
-#score {
-  position: fixed;
-}
+
 
 .grow {
   animation-name: grow;
@@ -15,11 +8,7 @@
   animation-fill-mode: forwards;
 }
 
-#whacs {
-  position: fixed;
-  left: 210px;
-  user-select: none;
-}
+
 
 
 @keyframes grow {

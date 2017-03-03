@@ -7,7 +7,7 @@ class Head extends Component {
 		this.state = {
 			style: style,
 			className: "",
-			container: {style: {}}
+			container: {style: containerStyle}
 		}
 		this.state.style.height = props.height
 		this.state.style.width = props.width
@@ -48,6 +48,12 @@ let style = {
 	position: "fixed",
 	zIndex: 0,
 	userSelect: "none"
+}
+
+let containerStyle = {
+	position: "fixed",
+  zIndex: 1,
+  background: "white"
 }
 
 
