@@ -11,8 +11,21 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0
+      score: 0,
+      heads: []
     }  
+
+    const HEADS = {
+      NEIL: {src: "neil.jpg"}
+    }
+
+    for (let i=0; i<props.noOfHeads; i++) {
+      this.state.heads.push({
+        left: i * 200,
+        type: HEADS.NEIL,
+        key: i
+      })
+    }
 
     this.onWhac = this.onWhac.bind(this)
   }
@@ -20,14 +33,18 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Head
-          onWhac={this.onWhac}
-          width={200}
-          height={259}
-          top={0}
-        >
-        </Head>
-
+        {this.state.heads.map( head => {
+          return <Head
+            onWhac={this.onWhac}
+            width={200}
+            height={259}
+            top={259}
+            key={head.key}
+            left={head.left}
+            src={head.type.src}
+            >
+          </Head>
+        })}
        <Score 
         score={this.state.score}
         left={210}

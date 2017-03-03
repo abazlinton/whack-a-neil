@@ -26,7 +26,7 @@ it('sets containers height', () => {
 
 it('sets containers top', () => {
 	const wrapper = mount(<Head width={200} height={100} top={100}> </Head>);
-	expect(wrapper.find('.container')).to.have.style('top', '200px')
+	expect(wrapper.find('.container')).to.have.style('top', '100px')
 
 })
 
