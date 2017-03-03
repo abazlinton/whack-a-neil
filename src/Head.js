@@ -6,17 +6,19 @@ class Head extends Component {
 		super(props)
 		this.state = {
 			style: style,
-			className: ""
+			className: "",
+			container: {style: {}}
 		}
-
-		if (props.height) {
-			this.state.style.height = props.height
-			this.state.style.left = props.left
-
-		}
+		this.state.style.height = props.height
+		this.state.style.width = props.width
+		this.state.style.left = props.left
+		this.state.style.top = props.top
+		this.state.container.style.height = props.height
+		this.state.container.style.width = props.width
+		this.state.container.style.top = props.height + props.top
+		
 		this.pop()
-		this.state.onWhack = props.onWhack
-
+		this.state.onWhac = props.onWhac
 	}
 
 	pop(){
@@ -25,24 +27,25 @@ class Head extends Component {
 
   render() {
     return (
-      <div>
+    	<div>
+    		<div 
+          className="container"
+          style={this.state.container.style}
+        >
+        </div>
         <img
         	className={this.state.className}
-        	onClick={this.state.onWhack}
+        	onClick={this.state.onWhac}
         	src="neil.jpg"
         	style={this.state.style}
         />
-      </div>
+       </div>
     );
   }
 }
 
 let style = {
 	position: "fixed",
-	width: 200,
-	height: 259,
-	top: 0,
-	left: 0,
 	zIndex: 0,
 	userSelect: "none"
 }

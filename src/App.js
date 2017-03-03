@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Head from './Head'
+import Score from './Score'
 
 import Circle from './Circle'
 
@@ -13,35 +14,33 @@ class App extends Component {
       score: 0
     }  
 
-    this.onWhack = this.onWhack.bind(this)
+    this.onWhac = this.onWhac.bind(this)
   }
 
   render() {
     return (
       <div>
-        <div 
-          className="container"
-        >
-        </div>
-
         <Head
-          onWhack={this.onWhack}
+          onWhac={this.onWhac}
+          width={200}
+          height={259}
+          top={0}
         >
         </Head>
-       
-        <h1
-          id="whacks"
-        >
-        </h1>
+
+       <Score 
+        score={this.state.score}
+        left={210}
+        />
 
       </div>
       );
   }
 
-  onWhack() {
-    this.state.score += 1
-    const whacks = document.getElementById("whacks")
-    whacks.innerText = this.state.score + " WHACKS!"
+  onWhac() {
+    const newScore = this.state.score + 1
+    const newState = Object.assign({}, this.state, {score: newScore});
+    this.setState(newState)
   }
 
 }
