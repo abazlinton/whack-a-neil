@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import Head from './Head'
 import Score from './Score'
+import {Motion, spring} from 'react-motion';
 
-import Circle from './Circle'
+
 
 import './App.css';
+
+const HEADS = {
+  NEIL: {src: "neil.jpg"}
+}
 
 class App extends Component {
 
@@ -12,12 +17,10 @@ class App extends Component {
     super(props);
     this.state = {
       score: 0,
-      heads: []
+      heads: [],
+      open: false,
+      target: 200
     }  
-
-    const HEADS = {
-      NEIL: {src: "neil.jpg"}
-    }
 
     for (let i=0; i<props.noOfHeads; i++) {
       this.state.heads.push({
@@ -28,35 +31,83 @@ class App extends Component {
     }
 
     this.onWhac = this.onWhac.bind(this)
+    this.scoreClick = this.scoreClick.bind(this)
   }
 
+
   render() {
+    console.log("render called")
     return (
       <div>
-        {this.state.heads.map( head => {
-          return <Head
-            onWhac={this.onWhac}
-            width={200}
-            height={259}
-            top={259}
-            key={head.key}
-            left={head.left}
-            src={head.type.src}
-            >
-          </Head>
+
+          {this.state.heads.map( head => {
+            return (
+              <Motion style={{y: spring(this.state.open ? this.state.target : 200)}}
+                key={head.key}
+                config="stiff"
+                onRest={() => {
+
+                  const newState = Object.assign({}, this.state, {open: true, target: 200});  
+                  this.setState(newState)
+                }}
+              >
+              {({y}) =>
+                {
+                return (
+                <Head
+                  onWhac={this.onWhac}
+                  className="head"
+                  // width={200}
+                  // height={259}
+                  // top={200}
+                  // key={head.key}
+                  // left={head.left}
+
+                  // src={head.type.src}
+                  style={{
+                    position: "fixed",
+                    WebkitTransform: `translate3d(0, ${y}px, 0)`,
+                    transform: `translate3d(0, ${y}px, 0)`,
+                    left: `${head.left}px`,
+                    // src: `${head.type.src}`
+                  }}
+                >
+                </Head>
+                )}
+              }
+             </Motion> 
+            )
+
         })}
-       <Score 
-        score={this.state.score}
-        left={210}
-        />
+      
+      <Score 
+      score={this.state.score}
+      left={210}
+      
+      />
+      <button
+        onClick={this.scoreClick}>
+      </button>
 
       </div>
       );
   }
 
+  scoreClick(){
+    const oldTarget = this.state.target;
+    const newTarget = oldTarget + 10;
+    const newState = Object.assign({}, this.state, {open: true, target: newTarget});  
+    this.setState(newState)
+  }
+
   onWhac() {
     const newScore = this.state.score + 1
-    const newState = Object.assign({}, this.state, {score: newScore});
+    let newHeads = this.state.heads.concat({
+      left: 3 * 200,
+      type: HEADS.NEIL,
+      key: 3
+    })
+    const newState = Object.assign({}, this.state, {score: newScore, heads: newHeads});  
     this.setState(newState)
   }
 

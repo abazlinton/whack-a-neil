@@ -19,7 +19,7 @@
 .example-enter.example-enter-active {
   opacity: 1;
   width: 100px;
-  transition: 7000ms;
+  transition: 70  0ms;
 }
 
 .example-leave {
@@ -31,4 +31,12 @@
   opacity: 0.01;
   width: 0px; 
   transition: 700ms;
+}
+
+.head {
+  background-image: url(../public/neil.jpg);
+  background-size: 100px 129px;
+  width: 100px;
+  height: 129px;
+
 }

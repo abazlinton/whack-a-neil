@@ -16,17 +16,17 @@ it('calls passed function when head clicked on', () => {
 
 it('sets containers width', () => {
 	const wrapper = mount(<Head width={200} height={259} top={0}> </Head>);
-	expect(wrapper.find('.container')).to.have.style('width', '200px')
+	expect(wrapper.find('.hider')).to.have.style('width', '200px')
 });
 
 it('sets containers height', () => {
 	const wrapper = mount(<Head height={259} top={0}> </Head>);
-	expect(wrapper.find('.container')).to.have.style('height', '259px')
+	expect(wrapper.find('.hider')).to.have.style('height', '259px')
 });
 
 it('sets containers top', () => {
 	const wrapper = mount(<Head width={200} height={100} top={100}> </Head>);
-	expect(wrapper.find('.container')).to.have.style('top', '100px')
+	expect(wrapper.find('.hider')).to.have.style('top', '100px')
 
 })
 
