@@ -2,7 +2,7 @@ import React from 'react'
 
 const Head = (props) => {
 
-  let containerStyle = {
+  let hiderStyle = {
     left: props.style.left,
     top: props.baseTop,
     width: props.style.width,
@@ -15,8 +15,8 @@ const Head = (props) => {
     return (
       <div>
         <div 
-          className="container"
-          style={containerStyle}
+          className="hider"
+          style={hiderStyle}
         >
         </div>
           <img
