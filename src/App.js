@@ -14,33 +14,44 @@ class App extends Component {
 
     this.ticks = 0
 
-    this.headWidth = props.gridWidth / 3
+    const headsWidth = props.gridWidth / 3
     const headsGap = 50
-    let baseTop = 100
-    const height = 100
+    const baseTop = 100
+    const headsHeight = 100
 
-    let i = 0
-
-    for (let x=0; x<3; x++){
-      for (let y=0; y<3; y++){
-        this.state.heads.push({
-          left: (x * (this.headWidth + headsGap) + 250),
-          key: i,
-          baseTop: baseTop + (baseTop * (2 * y)),
-          top: baseTop + (baseTop * (2 * y)),
-          goalTop: baseTop + (baseTop * (2 * y)) - height,
-          speed: Math.floor((Math.random() * 5) + 2),
-          id: i
-        })
-        i++
-      }
-    }
+    this.initializeHeads(this.state.heads, baseTop, headsGap, headsWidth, headsHeight)
 
     this.onWhac = this.onWhac.bind(this)
     this.onTick = this.onTick.bind(this)
     const fps = 30
     setInterval(this.onTick, 1000 / fps)
     
+  }
+
+  initializeHeads(heads, baseTop, gap, width, height){
+    let i = 0
+    for (let x=0; x<3; x++){
+      for (let y=0; y<3; y++){
+        heads.push({
+          key: i,
+          baseTop: baseTop + (baseTop * (2 * y)),
+          goalTop: baseTop + (baseTop * (2 * y)) - height,
+          speed: Math.floor((Math.random() * 5) + 2),
+          id: i,
+          style: {
+            width: width,
+            height: height,
+            left: (x * (width + gap) + 250),
+            top: baseTop + (baseTop * (2 * y)),
+            position: "fixed",
+            zIndex: 1,
+            userSelect: "none"
+          }
+        })
+        i++
+      }
+    }
+
   }
 
   render() {
@@ -52,15 +63,7 @@ class App extends Component {
             className="head"
             onWhac={this.onWhac}
             baseTop={head.baseTop}
-            style={{
-              width: this.headWidth,
-              height: 100,
-              top: head.top,
-              left: head.left,
-              position: "fixed",
-              zIndex: 1,
-              userSelect: "none"
-            }}
+            style={head.style}
             key={head.key}
             id={head.id}
             >
@@ -76,8 +79,16 @@ class App extends Component {
       );
   }
 
+  getSpeed(headId) {
+    return this.state.heads[headId].speed
+  }
+
   onWhac(e) {
-    const newScore = this.state.score + Math.round(this.state.heads[e.target.id].speed)
+    this.increaseScore( Math.round( this.getSpeed(e.target.id) ) )
+  }
+
+  increaseScore(increase){
+    const newScore = this.state.score + increase
     const newState = Object.assign({}, this.state, {score: newScore});
     this.setState(newState)
   }
@@ -91,27 +102,27 @@ class App extends Component {
     let newHeads = null
     this.state.heads.forEach( (head, index) => {
       
-      if (head.top !== head.goalTop ) {
+      if (head.style.top !== head.goalTop ) {
         let increment = 0
-        if (head.top < head.goalTop) {
+        if (head.style.top < head.goalTop) {
           increment = head.speed
         } else {
           increment = head.speed * - 1
         }
         newHeads = this.state.heads.slice()
-        let newTop = head.top + increment
+        let newTop = head.style.top + increment
 
         // if goal is 500 and get to 501 we need to cap otherwise if speed is say 2 will flip between 499, 501
         if ( (newTop > head.goalTop && increment > 0) || (newTop < head.goalTop && increment < 0) ) {
           newTop = head.goalTop
         }
 
-        newHeads[index].top = newTop
+        newHeads[index].style.top = newTop
 
         //bounce back to original position once hit goal + faster
-        if (newHeads[index].top == head.goalTop){
+        if (newHeads[index].style.top === head.goalTop){
           newHeads[index].goalTop = newHeads[index].baseTop
-          newHeads[index].speed = newHeads[index].speed * 1.3
+          newHeads[index].speed *= 1.3
         }
       }
     })
