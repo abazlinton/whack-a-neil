@@ -4,6 +4,6 @@ import App from './App';
 import './index.css';
 
 ReactDOM.render(
-  <App noOfHeads={3}/>,
+  <App noOfHeads={9} gridWidth={231}/>,
   document.getElementById('root')
 );

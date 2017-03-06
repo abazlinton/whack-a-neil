@@ -1,34 +1,9 @@
-.grow {
-  animation-name: grow;
-  animation-duration: 0.5s;
-  animation-iteration-count: 10;
-  animation-fill-mode: forwards;
-}
 
-@keyframes grow {
-  0% {top: 259px;}
-  50% {top: 0px;}
-  100% {top: 259px;}
-}
 
-.example-enter {
-  opacity: 0.01;
-  width: 0px;
-}
+.head {
+  background-image: url(../public/neil.jpg);
+  background-size: 77px 100px;
+  width: 77px;
+  height: 100px;
 
-.example-enter.example-enter-active {
-  opacity: 1;
-  width: 100px;
-  transition: 7000ms;
-}
-
-.example-leave {
-  opacity: 1;
-  width: 100px;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  width: 0px; 
-  transition: 700ms;
 }

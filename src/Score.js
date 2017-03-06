@@ -3,7 +3,8 @@ import React from 'react'
 const Score = function(props) {
 
 	const style = {
-		left: props.left, 
+		left: props.left,
+		fontSize: 30, 
 		position: "fixed",
 		userSelect: "none"
 	}
@@ -14,7 +15,7 @@ const Score = function(props) {
 			style={style}
 		>
 			
-			{props.score} WHACS!
+			SCORE: {props.score}
 		</div>
 	)
 }
