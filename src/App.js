@@ -24,13 +24,24 @@ class App extends Component {
     this.onWhac = this.onWhac.bind(this)
     this.onTick = this.onTick.bind(this)
     this.popHead = this.popHead.bind(this)
+
+
+    document.addEventListener('visibilitychange', () => {
+      clearInterval(this.tickTimer);
+      clearInterval(this.popTimer);
+      if (document.visibilityState === "visible"){
+        const fps = 30
+        this.tickTimer = setInterval(this.onTick, 1000 / fps)
+        this.popTimer = setInterval(this.popHead, 749)
+      }
+    })
     
     
   }
   componentDidMount() {
     const fps = 30
-    setTimeout(() => {setInterval(this.onTick, 1000 / fps)}, 1000)
-    setInterval(this.popHead, 749)
+    this.tickTimer = setInterval(this.onTick, 1000 / fps)
+    this.popTimer = setInterval(this.popHead, 749)
     
   }
 
