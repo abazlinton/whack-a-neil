@@ -15,6 +15,6 @@ chai.use(chaiEnzyme())
 it('calls passed function when head clicked on', () => {
 	const wrapper = mount(<Score score={5}/>)
 	// expect(wrapper.text()).toBe('5 WHACS!');
-	expect(wrapper.find('#score')).to.have.text('5 WHACS!')
+	expect(wrapper.find('#score')).to.have.text('SCORE: 5')
 	
 });
