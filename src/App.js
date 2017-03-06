@@ -36,7 +36,7 @@ class App extends Component {
           key: i,
           baseTop: baseTop + (baseTop * (2 * y)),
           goalTop: baseTop + (baseTop * (2 * y)) - height,
-          speed: Math.floor((Math.random() * 5) + 2),
+          speed: this.getRandomIntInclusive(2, 8),
           id: i,
           style: {
             width: width,
@@ -79,6 +79,10 @@ class App extends Component {
       );
   }
 
+ getRandomIntInclusive(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
   getSpeed(headId) {
     return this.state.heads[headId].speed
   }
@@ -103,6 +107,7 @@ class App extends Component {
     this.state.heads.forEach( (head, index) => {
       
       if (head.style.top !== head.goalTop ) {
+        // are we + or - based on difference between start and goal
         let increment = 0
         if (head.style.top < head.goalTop) {
           increment = head.speed
@@ -119,7 +124,7 @@ class App extends Component {
 
         newHeads[index].style.top = newTop
 
-        //bounce back to original position once hit goal + faster
+        //bounce back to original position once hit goal + sink faster than rose
         if (newHeads[index].style.top === head.goalTop){
           newHeads[index].goalTop = newHeads[index].baseTop
           newHeads[index].speed *= 1.3
