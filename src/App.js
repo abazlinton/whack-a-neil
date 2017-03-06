@@ -23,8 +23,14 @@ class App extends Component {
 
     this.onWhac = this.onWhac.bind(this)
     this.onTick = this.onTick.bind(this)
+    this.popHead = this.popHead.bind(this)
+    
+    
+  }
+  componentDidMount() {
     const fps = 30
-    setInterval(this.onTick, 1000 / fps)
+    setTimeout(() => {setInterval(this.onTick, 1000 / fps)}, 1000)
+    setInterval(this.popHead, 749)
     
   }
 
@@ -35,7 +41,7 @@ class App extends Component {
         heads.push({
           key: i,
           baseTop: baseTop + (baseTop * (2 * y)),
-          goalTop: baseTop + (baseTop * (2 * y)) - height,
+          goalTop: baseTop + (baseTop * (2 * y)),
           speed: this.getRandomIntInclusive(2, 8),
           id: i,
           style: {
@@ -73,8 +79,6 @@ class App extends Component {
         score={this.state.score}
         left={20}
         />
-      
-
       </div>
       );
   }
@@ -102,9 +106,27 @@ class App extends Component {
     this.animateHeads()
   }
 
+  popHead(){
+    const newHeads = this.state.heads.slice()
+    let foundHiddenHead = false
+    let head = null
+    while (!foundHiddenHead) {
+      let headId = this.getRandomIntInclusive(0, 8)
+      head = newHeads[headId]
+      if (head.style.top === head.goalTop) {
+        foundHiddenHead = true
+      }
+    }
+    head.goalTop = head.baseTop - head.style.height
+    head.speed = this.getRandomIntInclusive(2, 8)
+    const newState = Object.assign({}, this.state, {heads: newHeads});
+    this.setState(newState)
+  }
+
   animateHeads(){
-    let newHeads = null
-    this.state.heads.forEach( (head, index) => {
+    
+    let newHeads = this.state.heads.slice()
+    newHeads.forEach( (head, index) => {
       
       if (head.style.top !== head.goalTop ) {
         // are we + or - based on difference between start and goal
@@ -114,7 +136,7 @@ class App extends Component {
         } else {
           increment = head.speed * - 1
         }
-        newHeads = this.state.heads.slice()
+        
         let newTop = head.style.top + increment
 
         // if goal is 500 and get to 501 we need to cap otherwise if speed is say 2 will flip between 499, 501
